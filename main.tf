@@ -381,7 +381,7 @@ resource "aws_security_group" "cloudbinary_sg" {
 }
 
 data "template_file" "cb_web1_userdata" {
-  template = file("${path.module}/templates/install-web1.tpl")
+  template = file("${path.module}/install-web1.tpl")
 
   vars = {
     env = "dev"
@@ -405,7 +405,7 @@ resource "aws_instance" "cb_web1" {
 
 
 data "template_file" "cb_web2_userdata" {
-  template = file("${path.module}/templates/install-web2.tpl")
+  template = file("${path.module}/install-web2.tpl")
 
   vars = {
     env = "dev"
