@@ -403,25 +403,25 @@ resource "aws_instance" "cb_web1" {
   }
 }
 
-data "template_file" "cb_web1_userdata" {
-  template = file("${path.module}/install-web1.tpl")
+data "template_file" "jumpbox_userdata" {
+  template = file("${path.module}/install-jumpbox.tpl")
 
   vars = {
     env = "dev"
   }
 }
 
-resource "aws_instance" "cb_web1" {
-  ami                    = "ami-0574da719dca65348"
+resource "aws_instance" "jumpbox" {
+  ami                    = "ami-0be29bafdaad782db"
   instance_type          = "t2.medium"
   key_name               = "pro"
-  subnet_id              = aws_subnet.cloudbinary_public_subnet1.id
+  subnet_id              = aws_subnet" "cloudbinary_public_subnet1.id
   vpc_security_group_ids = [aws_security_group.cloudbinary_sg.id]
-  user_data              = data.template_file.cb_web1_userdata.rendered
+  user_data              = data.template_file.jumpbox_userdata.rendered
   iam_instance_profile   = aws_iam_instance_profile.cloudbinary_profile.name
 
   tags = {
-    Name      = "cb_web1"
+    Name      = "jumpbox"
     CreatedBy = "Terraform"
   }
 }
