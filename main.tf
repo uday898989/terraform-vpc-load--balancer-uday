@@ -391,7 +391,7 @@ data "template_file" "cb_web1_userdata" {
 resource "aws_instance" "cb_web1" {
   ami                    = "ami-0574da719dca65348"
   instance_type          = "t2.medium"
-  key_name               = "cloud-nv"
+  key_name               = "pro"
   subnet_id              = aws_subnet.cloudbinary_private_subnet1.id
   vpc_security_group_ids = [aws_security_group.cloudbinary_sg.id]
   user_data              = data.template_file.cb_web1_userdata.rendered
@@ -403,7 +403,28 @@ resource "aws_instance" "cb_web1" {
   }
 }
 
+data "template_file" "cb_web1_userdata" {
+  template = file("${path.module}/install-web1.tpl")
 
+  vars = {
+    env = "dev"
+  }
+}
+
+resource "aws_instance" "cb_web1" {
+  ami                    = "ami-0574da719dca65348"
+  instance_type          = "t2.medium"
+  key_name               = "pro"
+  subnet_id              = aws_subnet.cloudbinary_public_subnet1.id
+  vpc_security_group_ids = [aws_security_group.cloudbinary_sg.id]
+  user_data              = data.template_file.cb_web1_userdata.rendered
+  iam_instance_profile   = aws_iam_instance_profile.cloudbinary_profile.name
+
+  tags = {
+    Name      = "cb_web1"
+    CreatedBy = "Terraform"
+  }
+}
 data "template_file" "cb_web2_userdata" {
   template = file("${path.module}/install-web2.tpl")
 
@@ -415,7 +436,7 @@ data "template_file" "cb_web2_userdata" {
 resource "aws_instance" "cb_web2" {
   ami                    = "ami-0574da719dca65348"
   instance_type          = "t2.medium"
-  key_name               = "cloud-nv"
+  key_name               = "pro"
   subnet_id              = aws_subnet.cloudbinary_private_subnet2.id
   vpc_security_group_ids = [aws_security_group.cloudbinary_sg.id]
   user_data              = data.template_file.cb_web2_userdata.rendered
