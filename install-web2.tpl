@@ -1,6 +1,6 @@
 #!/bin/bash
 
-hostnamectl set-hostname "web2.skDiamond.io"
+hostnamectl set-hostname "web2.uday.io"
 echo "`hostname -I | awk '{ print $1}'` `hostname`" >> /etc/hosts
 sudo apt-get update
 sudo apt-get install git curl wget unzip tree -y 
